@@ -1,7 +1,27 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require("passport");
+const cors = require("cors");
+
+const users = require("./routes/api/users");
+const stocks = require("./routes/api/stocks");
+
+require("dotenv").config();
+const PORT = process.env.PORT || 5000;
 const app = express();
+
+let origin;
+if (process.env.NODE_ENV === "production") {
+  origin = "https://stockify.herokuapp.com";
+} else {
+  origin = "http://localhost:3000";
+}
+
+const corsOptions = {
+  origin: origin,
+};
+
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
@@ -9,6 +29,7 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
 // DB Config
 const db = require("./config/keys").mongoURI;
 
@@ -23,5 +44,12 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
 
-const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
-app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+//PASSPORT MIDDLEWARE
+app.use(passport.initialize());
+
+require("./config/passport")(passport);
+
+app.use("/api/users", users);
+app.use("/api/stocks", stocks);
+
+app.listen(PORT, () => console.log(`Server up and running on port ${PORT} !`));

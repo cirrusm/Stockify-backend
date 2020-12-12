@@ -12,7 +12,6 @@ const UserSchema = new Schema({
   },
   balance: {
     type: Number,
-    required: true,
   },
   password: {
     type: String,
@@ -27,6 +26,6 @@ const UserSchema = new Schema({
     ref: "Stock",
   },
 });
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("users", UserSchema);
 
 module.exports = User;

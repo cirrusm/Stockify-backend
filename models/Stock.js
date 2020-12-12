@@ -7,6 +7,11 @@ const stockSchema = new mongoose.Schema({
   },
   shares: {
     type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
   },
   date: {
     type: Date,
@@ -14,7 +19,7 @@ const stockSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "users",
   },
 });
 
