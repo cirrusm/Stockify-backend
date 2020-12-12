@@ -13,7 +13,7 @@ const app = express();
 
 let origin;
 if (process.env.NODE_ENV === "production") {
-  origin = "https://stockify.herokuapp.com";
+  origin = "https://stockifyyy.herokuapp.com";
 } else {
   origin = "http://localhost:3000";
 }
